@@ -27,7 +27,7 @@ Model View View Model (MVVM)
 
 # Screen Shots
 <img src="./Image/Todo.gif"  height="500" alt="Todo Lists" style="margin-right:20px"/>
-<img src="./Image/TodoApp.gif"  height="500" alt="Todo Lists" />
+<img src="./Image/Todoapp.gif"  height="500" alt="Todo Lists" />
 
 # License
 @ Copyright 2021 Dhruba Sharma
