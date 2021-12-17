@@ -1,12 +1,14 @@
 package com.example.todolist.model;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-public class TaskEntry { @PrimaryKey(autoGenerate = true)
+@Entity
+public class Task { @PrimaryKey(autoGenerate = true)
 private int id;
     private String description;
     private int priority;
@@ -14,13 +16,13 @@ private int id;
     private Date updatedAt;
 
     @Ignore
-    public TaskEntry(String description, int priority, Date updatedAt) {
+    public Task(String description, int priority, Date updatedAt) {
         this.description = description;
         this.priority = priority;
         this.updatedAt = updatedAt;
     }
 
-    public TaskEntry(int id, String description, int priority, Date updatedAt) {
+    public Task(int id, String description, int priority, Date updatedAt) {
         this.id = id;
         this.description = description;
         this.priority = priority;

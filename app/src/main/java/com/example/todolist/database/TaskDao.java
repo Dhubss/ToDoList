@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.todolist.model.TaskEntry;
+import com.example.todolist.model.Task;
 
 import java.util.List;
 
@@ -16,18 +16,18 @@ import java.util.List;
 public interface TaskDao {
 
     @Query("select * from task order by priority")
-    LiveData<List<TaskEntry>> loadAllTasks();
+    LiveData<List<Task>> loadAllTasks();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTask(TaskEntry task);
+    void insertTask(Task task);
 
     @Update
-    void update(TaskEntry task);
+    void update(Task task);
 
     @Delete
-    void deleteTask(TaskEntry task);
+    void deleteTask(Task task);
 
     @Query("Select * from task where id =:taskId")
-    LiveData<TaskEntry> loadTAskById(int taskId);
+    LiveData<Task> loadTAskById(int taskId);
 
 }

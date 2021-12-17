@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.todolist.database.AppDatabase;
-import com.example.todolist.model.TaskEntry;
-import com.example.todolist.repo.Repository
+import com.example.todolist.model.Task;
+import com.example.todolist.repo.Repository;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public class ToDoViewModel extends AndroidViewModel {
 
     Repository repository;
 
-    private  LiveData<List<TaskEntry>> tasks;
+    private final LiveData<List<Task>> tasks;
 
-    private MutableLiveData<Boolean> _showSnackBarEvent =new MutableLiveData<>();
+    private final MutableLiveData<Boolean> _showSnackBarEvent =new MutableLiveData<>();
     public LiveData<Boolean>showSnackBarEvent()
     {
         return _showSnackBarEvent;
@@ -36,16 +36,16 @@ public class ToDoViewModel extends AndroidViewModel {
         tasks = repository.getTasks();
     }
 
-    public LiveData<List<TaskEntry>> getTasks(){
+    public LiveData<List<Task>> getTasks(){
         return tasks;
     }
 
-    public void deleteTask(TaskEntry task)
+    public void deleteTask(Task task)
     {
         repository.deleteTask(task);
         _showSnackBarEvent.setValue(true);
     }
-    public void update(TaskEntry task)
+    public void update(Task task)
     {
         repository.updateTask(task);
         _showSnackBarEvent.setValue(true);

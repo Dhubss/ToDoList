@@ -1,42 +1,41 @@
 package com.example.todolist;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
 import com.example.todolist.adapter.TaskAdapter;
-import com.example.todolist.model.TaskEntry;
+import com.example.todolist.model.Task;
+import com.example.todolist.viewmodel.ToDoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemClickListener{
 
     // Constant for logging
-    private static final String TAG = MainActivity.class.getSimpleName();
-    // Member variables for the adapter and RecyclerView
-    private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
 
 
-    MainViewModel viewModel;
+    ToDoViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ToDoViewModel.class);
 
         // Set the RecyclerView to its corresponding view
-        mRecyclerView = findViewById(R.id.recyclerViewTasks);
+        // Member variables for the adapter and RecyclerView
+        RecyclerView mRecyclerView = findViewById(R.id.recyclerViewTasks);
 
         // Set the layout for the RecyclerView to be a linear layout, which measures and
         // positions items within a RecyclerView into a linear list
@@ -56,17 +55,17 @@ public class MainActivity extends AppCompatActivity {
          */
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             // Called when a user swipes left or right on a ViewHolder
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 // Here is where you'll implement swipe to delete
 
                 int position = viewHolder.getAdapterPosition();
-                List<TaskEntry> todoList = mAdapter.getTasks();
+                List<Task> todoList = mAdapter.getTasks();
                 viewModel.deleteTask(todoList.get(position));
             }
         }).attachToRecyclerView(mRecyclerView);
@@ -78,31 +77,20 @@ public class MainActivity extends AppCompatActivity {
          */
         final FloatingActionButton fabButton = findViewById(R.id.fab);
 
-        fabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create a new intent to start an AddTaskActivity
-                Intent addTaskIntent = new Intent(MainActivity.this, AddEditTaskActivity.class);
-                startActivity(addTaskIntent);
-            }
+        fabButton.setOnClickListener(view -> {
+            // Create a new intent to start an AddTaskActivity
+            Intent addTaskIntent = new Intent(MainActivity.this, AddEditTaskActivity.class);
+            startActivity(addTaskIntent);
         });
 
-        viewModel.getTasks().observe(this, new Observer<List<TaskEntry>>() {
-            @Override
-            public void onChanged(List<TaskEntry> taskEntries) {
-                mAdapter.setTasks(taskEntries);
-            }
-        });
+        viewModel.getTasks().observe(this, taskEntries -> mAdapter.setTasks(taskEntries));
 
-        viewModel.showSnackBarEvent().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean showSnackBar) {
-                if (showSnackBar== true) {
-                    Snackbar.make(fabButton, "Deleted Successfully", Snackbar.LENGTH_LONG).show();
-                    viewModel.doneShowSnackBarEvent();
-                }
-
+        viewModel.showSnackBarEvent().observe(this, showSnackBar -> {
+            if (showSnackBar) {
+                Snackbar.make(fabButton, "Deleted Successfully", Snackbar.LENGTH_LONG).show();
+                viewModel.doneShowSnackBarEvent();
             }
+
         });
     }
 

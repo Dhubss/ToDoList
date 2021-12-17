@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolist.R;
-import com.example.todolist.model.TaskEntry;
+import com.example.todolist.model.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -25,7 +25,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     // Member variable to handle item clicks
     final private ItemClickListener mItemClickListener;
     // Class variables for the List that holds task data and the Context
-    private List<TaskEntry> mTaskEntries;
+    private List<Task> mTaskEntries;
     private Context mContext;
     // Date formatter
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
@@ -64,10 +64,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(TaskViewHolder holder, int position) {
         // Determine the values of the wanted data
-        TaskEntry taskEntry = mTaskEntries.get(position);
-        String description = taskEntry.getDescription();
-        int priority = taskEntry.getPriority();
-        String updatedAt = dateFormat.format(taskEntry.getUpdatedAt());
+        Task task = mTaskEntries.get(position);
+        String description = task.getDescription();
+        int priority = task.getPriority();
+        String updatedAt = dateFormat.format(task.getUpdatedAt());
 
         //Set values
         holder.taskDescriptionView.setText(description);
@@ -117,7 +117,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return mTaskEntries.size();
     }
 
-    public List<TaskEntry> getTasks(){
+    public List<Task> getTasks(){
         return mTaskEntries;
     }
 
@@ -125,7 +125,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
      * When data changes, this method updates the list of taskEntries
      * and notifies the adapter to use the new values on it
      */
-    public void setTasks(List<TaskEntry> taskEntries) {
+    public void setTasks(List<Task> taskEntries) {
         mTaskEntries = taskEntries;
         notifyDataSetChanged();
     }

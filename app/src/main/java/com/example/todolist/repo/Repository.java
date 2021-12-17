@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.todolist.database.AppDatabase;
 import com.example.todolist.database.TaskDao;
-import com.example.todolist.model.TaskEntry;
+import com.example.todolist.model.Task;
 
 import java.util.List;
 
@@ -16,15 +16,15 @@ public class Repository {
         dao = appDatabase.taskDao();
     }
 
-    public LiveData<List<TaskEntry>> getTasks(){
+    public LiveData<List<Task>> getTasks(){
         return dao.loadAllTasks();
     }
 
-    public LiveData<TaskEntry> getTaskById(int taskId){
+    public LiveData<Task> getTaskById(int taskId){
         return dao.loadTAskById(taskId);
     }
 
-    public void updateTask(final TaskEntry task){
+    public void updateTask(final Task task){
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -33,7 +33,7 @@ public class Repository {
         });
     }
 
-    public void deleteTask(final TaskEntry task){
+    public void deleteTask(final Task task){
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -42,7 +42,7 @@ public class Repository {
         });
     }
 
-    public  void  insertTask(final TaskEntry task){
+    public  void  insertTask(final Task task){
         AppDatabase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
