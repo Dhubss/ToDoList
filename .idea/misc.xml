@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/border_bottom.xml" value="0.26875" />
         <entry key="app/src/main/res/drawable/priority_indicator.xml" value="0.26875" />
         <entry key="app/src/main/res/layout/activity_add_edit_task.xml" value="0.12916666666666668" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/todolist_row.xml" value="0.1" />
       </map>
     </option>
